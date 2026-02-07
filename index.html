@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estruturação Operacional Cripto - Apresentação Executiva</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Calibri', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+            min-height: 80vh;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(90deg, #f59e0b, #d97706, #b45309);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: #f59e0b;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: #fbbf24;
+            margin-bottom: 0.8rem;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #d1d5db;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        }
+
+        .phase-card {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05));
+            border: 2px solid rgba(245, 158, 11, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .phase-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(245, 158, 11, 0.4);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1));
+        }
+
+        .phase-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #f59e0b;
+            opacity: 0.5;
+            margin-bottom: 0.5rem;
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .activity-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 0 10px 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .activity-item:hover {
+            background: rgba(245, 158, 11, 0.1);
+            padding-left: 1.5rem;
+        }
+
+        .delivery-item {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), transparent);
+            border-left: 4px solid #10b981;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .deliveries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.6);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        .slide-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(245, 158, 11, 0.9);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 700;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05));
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05));
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.8rem; }
+            .slide { padding: 1rem; }
+            .navigation { flex-direction: column; }
+        }
+
+        .highlight-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #f59e0b;
+            line-height: 1;
+            margin: 0.5rem 0;
+        }
+
+        .highlight-text {
+            font-size: 1.5rem;
+            color: #d1d5db;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="container">
+        <!-- SLIDE 1: CAPA -->
+        <div class="slide active" id="slide1">
+            <h1>🚀 ESTRUTURAÇÃO OPERACIONAL COM EMISSÃO FISCAL, CONTROLE FINANCEIRO E INFRAESTRUTURA CRIPTO</h1>
+            <p class="subtitle">Apresentação Executiva • Uso em Reunião Estratégica</p>
+            <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&h=600&fit=crop" alt="Cripto Trading" class="hero-image">
+            <div class="info-box">
+                <h3>📋 O Mercado de Criptoativos</h3>
+                <p>O mercado de criptoativos passou por uma transformação significativa nos últimos anos, deixando de ser uma tecnologia experimental para se tornar uma alternativa consolidada de investimento e meio de pagamento.</p>
+            </div>
+            <div class="success-box">
+                <h3>💎 A Oportunidade</h3>
+                <p>Oferecer uma solução completa, rastreável e escalável, que una segurança operacional, previsibilidade financeira e inovação tecnológica.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: OBJETIVOS -->
+        <div class="slide" id="slide2">
+            <h2>🎯 OBJETIVOS DO PROJETO</h2>
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=500&fit=crop" alt="Business Strategy" class="hero-image">
+            <div class="activities-grid">
+                <div class="activity-item">
+                    <h3>📄 Faturamento Formal</h3>
+                    <p>Emissão de notas fiscais com compliance fiscal adequado</p>
+                </div>
+                <div class="activity-item">
+                    <h3>💳 Cobrança Via Boleto</h3>
+                    <p>Controle rigoroso de recebíveis e inadimplência</p>
+                </div>
+                <div class="activity-item">
+                    <h3>🔒 Custódia Profissional</h3>
+                    <p>Aquisição e custódia de ativos digitais de forma segura</p>
+                </div>
+                <div class="activity-item">
+                    <h3>💰 Distribuição Transparente</h3>
+                    <p>Resultados aos clientes via infraestrutura tradicional e cripto</p>
+                </div>
+            </div>
+            <div class="info-box">
+                <h3>🌟 Integração de Infraestruturas</h3>
+                <p>Unir segurança operacional com infraestrutura tradicional (bancária/fiscal) e infraestrutura cripto, garantindo transparência e compliance.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: FASE 1 -->
+        <div class="slide" id="slide3">
+            <h2>📋 FASE 1 - ESTRUTURA JURÍDICO-FISCAL</h2>
+            <div class="phase-number">01</div>
+            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=500&fit=crop" alt="Legal Documents" class="hero-image">
+            <h3>Atividades Principais</h3>
+            <div class="activities-grid">
+                <div class="activity-item">
+                    <strong>Seleção de Empresas</strong>
+                    <p>Empresas GLOBAL e FINN para emissão de notas fiscais</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Análise de CNAE</strong>
+                    <p>CNAE mais adequados para ativos digitais + regime tributário</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Definição de Fluxos</strong>
+                    <p>Qual empresa emite nota e qual recebe pagamentos</p>
+                </div>
+            </div>
+            <h3>Entregas</h3>
+            <div class="deliveries-grid">
+                <div class="delivery-item">✅ Parecer jurídico-fiscal</div>
+                <div class="delivery-item">✅ Definição de CNAE e regime tributário</div>
+                <div class="delivery-item">✅ Fluxograma de emissão e recebimento</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: FASE 2 -->
+        <div class="slide" id="slide4">
+            <h2>🏦 FASE 2 - CONTAS BANCÁRIAS E BOLETOS</h2>
+            <div class="phase-number">02</div>
+            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&h=500&fit=crop" alt="Banking" class="hero-image">
+            <h3>Atividades Principais</h3>
+            <div class="activities-grid">
+                <div class="activity-item">
+                    <strong>Abertura de Contas PJ</strong>
+                    <p>Instituições com infraestrutura digital robusta</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Habilitação de Boletos</strong>
+                    <p>Boletos registrados na CIP para controle automático</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Testes de Recebimento</strong>
+                    <p>Simulação de pagamentos e conciliação automática</p>
+                </div>
+            </div>
+            <h3>Entregas</h3>
+            <div class="deliveries-grid">
+                <div class="delivery-item">✅ Contas PJ abertas e operacionais</div>
+                <div class="delivery-item">✅ Sistema de emissão de boletos configurado</div>
+                <div class="delivery-item">✅ Relatório de testes de recebimento</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: FASE 3 -->
+        <div class="slide" id="slide5">
+            <h2>⚙️ FASE 3 - AUTOMAÇÃO E CONTROLE FINANCEIRO</h2>
+            <div class="phase-number">03</div>
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=500&fit=crop" alt="Automation" class="hero-image">
+            <h3>Atividades Principais</h3>
+            <div class="activities-grid">
+                <div class="activity-item">
+                    <strong>Plataforma Automatizada</strong>
+                    <p>Google Sheets, Excel com Power Query ou sistema próprio</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Controle de Notas e Boletos</strong>
+                    <p>Centralização de dados e análise de inadimplência</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Cálculo de Lucro</strong>
+                    <p>Regras: receita bruta, custos, impostos, lucro líquido</p>
+                </div>
+            </div>
+            <h3>Entregas</h3>
+            <div class="deliveries-grid">
+                <div class="delivery-item">✅ Dashboard financeiro operacional</div>
+                <div class="delivery-item">✅ Relatório de recebíveis e inadimplência</div>
+                <div class="delivery-item">✅ Modelo de cálculo de lucro e distribuição</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: FASE 4 -->
+        <div class="slide" id="slide6">
+            <h2>📝 FASE 4 - ESTRUTURA CONTRATUAL E ATIVOS</h2>
+            <div class="phase-number">04</div>
+            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&h=500&fit=crop" alt="Contracts" class="hero-image">
+            <h3>Atividades Principais</h3>
+            <div class="activities-grid">
+                <div class="activity-item">
+                    <strong>Compra de Ativos</strong>
+                    <p>Alinhamento com João: volume, preço, periodicidade</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Contrato de Compra</strong>
+                    <p>Cláusulas de entrega, custódia, rescisão</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Contrato de Serviços</strong>
+                    <p>Serviços, valores, políticas de risco, foro</p>
+                </div>
+            </div>
+            <h3>Entregas</h3>
+            <div class="deliveries-grid">
+                <div class="delivery-item">✅ Contrato de compra de ativos assinado</div>
+                <div class="delivery-item">✅ Minuta de contrato de prestação de serviços</div>
+                <div class="delivery-item">✅ Política de riscos e disclaimers</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: FASE 5 -->
+        <div class="slide" id="slide7">
+            <h2>🔐 FASE 5 - INFRAESTRUTURA CRIPTO</h2>
+            <div class="phase-number">05</div>
+            <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&h=500&fit=crop" alt="Crypto Security" class="hero-image">
+            <h3>Atividades Principais</h3>
+            <div class="activities-grid">
+                <div class="activity-item">
+                    <strong>Escolha de Carteiras</strong>
+                    <p>Hardware (Ledger, Trezor), multisig, custódia institucional</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Carteiras Segregadas</strong>
+                    <p>Carteira operacional + carteiras por cliente/estratégia</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Política de Segurança</strong>
+                    <p>Acesso a chaves privadas, multisig, backup de seeds</p>
+                </div>
+            </div>
+            <h3>Entregas</h3>
+            <div class="deliveries-grid">
+                <div class="delivery-item">✅ Arquitetura de carteiras documentada</div>
+                <div class="delivery-item">✅ Política de segurança e POP</div>
+                <div class="delivery-item">✅ Procedimento operacional padrão</div>
+            </div>
+            <div class="warning-box">
+                <h3>🔒 Segurança Crítica</h3>
+                <p>Controle de acesso a chaves privadas, protocolos de recuperação de desastres e monitoramento em tempo real são essenciais.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: FASE 6 -->
+        <div class="slide" id="slide8">
+            <h2>💸 FASE 6 - DISTRIBUIÇÃO DE LUCROS</h2>
+            <div class="phase-number">06</div>
+            <img src="https://images.unsplash.com/photo-1554224155-8727f6897d53?w=1200&h=500&fit=crop" alt="Profit Distribution" class="hero-image">
+            <h3>Modelo de Remuneração</h3>
+            <div class="activities-grid">
+                <div class="activity-item">
+                    <strong>Taxa Fixa</strong>
+                    <p>Mensal, previsível para ambas as partes</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Percentual sobre Lucro</strong>
+                    <p>Compartilhamento de resultados</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Híbrido</strong>
+                    <p>Taxa mínima + bônus variável</p>
+                </div>
+            </div>
+            <h3>Entregas</h3>
+            <div class="deliveries-grid">
+                <div class="delivery-item">✅ Modelo de distribuição documentado</div>
+                <div class="delivery-item">✅ Calendário de apuração e pagamento</div>
+                <div class="delivery-item">✅ Template de relatório de transparência</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: FASE 7 -->
+        <div class="slide" id="slide9">
+            <h2>💳 FASE 7 - CARTÕES CRIPTO</h2>
+            <div class="phase-number">07</div>
+            <img src="https://images.unsplash.com/photo-1563986768607-322da13575f3?w=1200&h=500&fit=crop" alt="Crypto Cards" class="hero-image">
+            <h3>Seleção de Cartões</h3>
+            <div class="activities-grid">
+                <div class="activity-item">
+                    <strong>Binance Card</strong>
+                    <p>Ampla aceitação, taxas competitivas</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Crypto.com Card</strong>
+                    <p>Cashback em CRO, disponível no Brasil</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Wirex</strong>
+                    <p>Multi-moedas, integração fácil</p>
+                </div>
+            </div>
+            <h3>Entregas</h3>
+            <div class="deliveries-grid">
+                <div class="delivery-item">✅ Testes de conversão e uso prático</div>
+                <div class="delivery-item">✅ Análise de taxas reais</div>
+                <div class="delivery-item">✅ Integração ao fluxo financeiro</div>
+            </div>
+            <div class="success-box">
+                <h3>🎯 Benefício para Clientes</h3>
+                <p>Clientes podem optar por receber lucros via PIX, TED ou cartão cripto carregado automaticamente.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: RESUMO -->
+        <div class="slide" id="slide10">
+            <h2>🚀 RESUMO DO PROJETO</h2>
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=500&fit=crop" alt="Timeline" class="hero-image">
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin: 2rem 0;">
+                <div style="text-align: center;">
+                    <div class="highlight-number">7</div>
+                    <div class="highlight-text">Fases do Projeto</div>
+                </div>
+                <div style="text-align: center;">
+                    <div class="highlight-number">100%</div>
+                    <div class="highlight-text">Transparência</div>
+                </div>
+                <div style="text-align: center;">
+                    <div class="highlight-number">💎</div>
+                    <div class="highlight-text">Escalável</div>
+                </div>
+                <div style="text-align: center;">
+                    <div class="highlight-number">🔒</div>
+                    <div class="highlight-text">Seguro</div>
+                </div>
+            </div>
+
+            <h3>✅ Principais Benefícios</h3>
+            <div class="activities-grid">
+                <div class="activity-item">
+                    <strong>Compliance Fiscal</strong>
+                    <p>Estrutura juridicamente adequada</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Automação</strong>
+                    <p>Processos automatizados e rastreáveis</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Segurança</strong>
+                    <p>Protocolos de segurança avançados</p>
+                </div>
+                <div class="activity-item">
+                    <strong>Transparência</strong>
+                    <p>Relatórios detalhados para clientes</p>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 2rem;">
+                <h3>📅 Próximos Passos</h3>
+                <p>Iniciar pela Fase 1 (Estrutura Jurídico-Fiscal) como base de toda a operação, seguido pela Fase 2 (Contas Bancárias) para estabelecer canais de recebimento.</p>
+            </div>
+        </div>
+
+        <!-- NAVEGAÇÃO -->
+        <div class="navigation">
+            <button class="nav-btn" onclick="previousSlide()">⬅️ Anterior</button>
+            <button class="nav-btn" onclick="nextSlide()">Próximo ➡️</button>
+        </div>
+    </div>
+
+    <div class="slide-indicator" id="slideIndicator">
+        1 / 10
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 10;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active'));
+
+            document.getElementById(`slide${n}`).classList.add('active');
+
+            document.getElementById('slideIndicator').textContent = `${n} / ${totalSlides}`;
+
+            const progress = (n / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + 50) {
+                previousSlide();
+            }
+        }
+    </script>
+</body>
+</html>
