@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estruturação Operacional Cripto - Apresentação Executiva</title>
+    <title>Estruturação Operacional Cripto | Big Tech Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,531 +12,807 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --gradient-dark: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent: #7c3aed;
+            --accent-2: #f59e0b;
+        }
+
         body {
-            font-family: 'Arial', 'Calibri', sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--gradient-dark);
             color: #ffffff;
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+        }
+
+        .bg-animation::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%237c3aed' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         .slide {
             display: none;
-            animation: fadeIn 0.5s ease-in-out;
-            min-height: 80vh;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
+            min-height: 90vh;
+            padding: 3rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
             margin: 2rem 0;
             position: relative;
             overflow: hidden;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                        0 0 0 1px rgba(255, 255, 255, 0.05);
         }
 
         .slide.active {
             display: block;
+            transform: translateY(0);
+            opacity: 1;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Slide Content Animation */
+        .slide.active * {
+            animation: slideIn 0.6s ease-out forwards;
+        }
+
+        .slide.active h1, .slide.active .display-number {
+            animation-delay: 0.1s;
+        }
+
+        .slide.active h2 {
+            animation-delay: 0.2s;
+        }
+
+        .slide.active p {
+            animation-delay: 0.3s;
+        }
+
+        .slide.active .card, .slide.active .stat-card {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
-            font-size: 3rem;
-            background: linear-gradient(90deg, #f59e0b, #d97706, #b45309);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            background: var(--gradient-1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -1px;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
         }
 
         h2 {
-            font-size: 2.2rem;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
             color: #f59e0b;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.01em;
         }
 
         h3 {
             font-size: 1.5rem;
-            color: #fbbf24;
-            margin-bottom: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
         }
 
-        .subtitle {
-            font-size: 1.3rem;
-            color: #d1d5db;
-            margin-bottom: 2rem;
-            line-height: 1.6;
+        p {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
         }
 
-        .hero-image {
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
-        }
-
-        .phase-card {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05));
-            border: 2px solid rgba(245, 158, 11, 0.3);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .phase-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(245, 158, 11, 0.4);
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1));
-        }
-
-        .phase-number {
-            font-size: 3rem;
-            font-weight: 800;
-            color: #f59e0b;
-            opacity: 0.5;
-            margin-bottom: 0.5rem;
-        }
-
-        .activities-grid {
+        /* Cards */
+        .cards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 1.5rem;
             margin: 2rem 0;
         }
 
-        .activity-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 4px solid #f59e0b;
-            padding: 1rem;
-            border-radius: 0 10px 10px 0;
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Hero Image */
+        .hero-image {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transform: scale(1.02);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-image:hover {
+            transform: scale(1);
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
             transition: all 0.3s ease;
         }
 
-        .activity-item:hover {
-            background: rgba(245, 158, 11, 0.1);
-            padding-left: 1.5rem;
+        .stat-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.06);
         }
 
-        .delivery-item {
-            background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), transparent);
-            border-left: 4px solid #10b981;
-            padding: 1rem;
-            margin: 0.5rem 0;
-            border-radius: 0 10px 10px 0;
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            margin-bottom: 0.5rem;
         }
 
-        .deliveries-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-            margin: 1.5rem 0;
+        .stat-label {
+            font-size: 1.125rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
         }
 
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient-1);
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+        }
+
+        /* Slide Indicator */
+        .slide-indicator {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--gradient-1);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .slide-indicator:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.6);
+        }
+
+        /* Navigation */
         .navigation {
             display: flex;
             justify-content: center;
-            gap: 1rem;
-            margin: 3rem 0;
+            gap: 1.5rem;
+            margin: 4rem 0;
             flex-wrap: wrap;
         }
 
         .nav-btn {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
+            background: var(--gradient-1);
             color: white;
             border: none;
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
+            font-size: 1.125rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(245, 158, 11, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+            letter-spacing: -0.01em;
         }
 
         .nav-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.5);
         }
 
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 4px;
-            background: linear-gradient(90deg, #f59e0b, #d97706);
-            z-index: 1000;
-            transition: width 0.3s ease;
+        .nav-btn:active {
+            transform: translateY(0);
         }
 
-        .slide-indicator {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(245, 158, 11, 0.9);
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
+        /* Phase Badge */
+        .phase-badge {
+            display: inline-block;
+            background: var(--gradient-1);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
             font-weight: 700;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
         }
 
+        /* Info Boxes */
         .info-box {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05));
-            border: 2px solid rgba(59, 130, 246, 0.3);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .warning-box {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05));
-            border: 2px solid rgba(239, 68, 68, 0.3);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
         }
 
         .success-box {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
-            border: 2px solid rgba(16, 185, 129, 0.3);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
         }
 
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--gradient-1);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -0.375rem;
+            top: 0.625rem;
+            width: 0.75rem;
+            height: 0.75rem;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(124, 58, 237, 0.5);
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.1; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.2; }
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            h2 { font-size: 1.8rem; }
-            .slide { padding: 1rem; }
+            .container { padding: 1rem; }
+            .slide { padding: 2rem 1.5rem; }
+            h1 { font-size: 2.25rem; }
+            h2 { font-size: 1.75rem; }
+            .stat-number { font-size: 3rem; }
             .navigation { flex-direction: column; }
+            .slide-indicator { bottom: 15px; right: 15px; font-size: 1rem; padding: 0.75rem 1.5rem; }
         }
 
-        .highlight-number {
-            font-size: 4rem;
-            font-weight: 900;
-            color: #f59e0b;
-            line-height: 1;
-            margin: 0.5rem 0;
+        /* Scroll Animation */
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            opacity: 0.6;
         }
 
-        .highlight-text {
-            font-size: 1.5rem;
-            color: #d1d5db;
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
         }
     </style>
 </head>
 <body>
-    <div class="progress-bar" id="progressBar"></div>
+    <div class="bg-animation"></div>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
 
     <div class="container">
-        <!-- SLIDE 1: CAPA -->
+        <!-- SLIDE 1: HERO -->
         <div class="slide active" id="slide1">
-            <h1>🚀 ESTRUTURAÇÃO OPERACIONAL COM EMISSÃO FISCAL, CONTROLE FINANCEIRO E INFRAESTRUTURA CRIPTO</h1>
-            <p class="subtitle">Apresentação Executiva • Uso em Reunião Estratégica</p>
-            <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&h=600&fit=crop" alt="Cripto Trading" class="hero-image">
-            <div class="info-box">
-                <h3>📋 O Mercado de Criptoativos</h3>
-                <p>O mercado de criptoativos passou por uma transformação significativa nos últimos anos, deixando de ser uma tecnologia experimental para se tornar uma alternativa consolidada de investimento e meio de pagamento.</p>
+            <span class="phase-badge">🚀 2026 • Strategic Operations</span>
+            <h1>ESTRUTURAÇÃO OPERACIONAL CRIPTO</h1>
+            <p style="font-size: 1.5rem; color: rgba(255, 255, 255, 0.6); margin-bottom: 2rem;">Emissão Fiscal • Controle Financeiro • Infraestrutura</p>
+
+            <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1400&h=600&fit=crop" alt="Cripto Trading" class="hero-image">
+
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-icon">📄</div>
+                    <h3>Faturamento Formal</h3>
+                    <p>Emissão de notas fiscais com compliance fiscal tributário</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💳</div>
+                    <h3>Cobrança via Boleto</h3>
+                    <p>Controle rigoroso de recebíveis e inadimplência</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔒</div>
+                    <h3>Custódia Profissional</h3>
+                    <p>Aquisição e custódia de ativos digitais</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💰</div>
+                    <h3>Distribuição Transparente</h3>
+                    <p>Resultados aos clientes via infraestrutura cripto</p>
+                </div>
             </div>
-            <div class="success-box">
-                <h3>💎 A Oportunidade</h3>
-                <p>Oferecer uma solução completa, rastreável e escalável, que una segurança operacional, previsibilidade financeira e inovação tecnológica.</p>
-            </div>
+
+            <div class="scroll-hint">⬇️ Scroll para explorar</div>
         </div>
 
         <!-- SLIDE 2: OBJETIVOS -->
         <div class="slide" id="slide2">
-            <h2>🎯 OBJETIVOS DO PROJETO</h2>
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=500&fit=crop" alt="Business Strategy" class="hero-image">
-            <div class="activities-grid">
-                <div class="activity-item">
-                    <h3>📄 Faturamento Formal</h3>
-                    <p>Emissão de notas fiscais com compliance fiscal adequado</p>
-                </div>
-                <div class="activity-item">
-                    <h3>💳 Cobrança Via Boleto</h3>
-                    <p>Controle rigoroso de recebíveis e inadimplência</p>
-                </div>
-                <div class="activity-item">
-                    <h3>🔒 Custódia Profissional</h3>
-                    <p>Aquisição e custódia de ativos digitais de forma segura</p>
-                </div>
-                <div class="activity-item">
-                    <h3>💰 Distribuição Transparente</h3>
-                    <p>Resultados aos clientes via infraestrutura tradicional e cripto</p>
-                </div>
-            </div>
+            <span class="phase-badge">🎯 Vision</span>
+            <h1>OBJETIVOS ESTRATÉGICOS</h1>
+
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&h=500&fit=crop" alt="Business Strategy" class="hero-image">
+
             <div class="info-box">
-                <h3>🌟 Integração de Infraestruturas</h3>
-                <p>Unir segurança operacional com infraestrutura tradicional (bancária/fiscal) e infraestrutura cripto, garantindo transparência e compliance.</p>
+                <h3>💡 A Oportunidade</h3>
+                <p>Oferecer uma solução completa, rastreável e escalável, que una segurança operacional, previsibilidade financeira e inovação tecnológica no mercado de criptoativos.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Compliance Fiscal</h3>
+                    <p>Estrutura juridicamente adequada com emissão de notas fiscais</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Automação Financeira</h3>
+                    <p>Processos automatizados e rastreáveis de ponta a ponta</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Segurança Avançada</h3>
+                    <p>Protocolos de segurança e custódia profissionais</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Transparência Total</h3>
+                    <p>Relatórios detalhados e acesso em tempo real</p>
+                </div>
             </div>
         </div>
 
         <!-- SLIDE 3: FASE 1 -->
         <div class="slide" id="slide3">
-            <h2>📋 FASE 1 - ESTRUTURA JURÍDICO-FISCAL</h2>
-            <div class="phase-number">01</div>
-            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=500&fit=crop" alt="Legal Documents" class="hero-image">
-            <h3>Atividades Principais</h3>
-            <div class="activities-grid">
-                <div class="activity-item">
-                    <strong>Seleção de Empresas</strong>
+            <span class="phase-badge">FASE 01</span>
+            <h1>ESTRUTURA JURÍDICO-FISCAL</h1>
+
+            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1400&h=500&fit=crop" alt="Legal Documents" class="hero-image">
+
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-icon">🏢</div>
+                    <h3>Seleção de Empresas</h3>
                     <p>Empresas GLOBAL e FINN para emissão de notas fiscais</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Análise de CNAE</strong>
-                    <p>CNAE mais adequados para ativos digitais + regime tributário</p>
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h3>Análise de CNAE</h3>
+                    <p>CNAE adequados para ativos digitais + regime tributário</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Definição de Fluxos</strong>
-                    <p>Qual empresa emite nota e qual recebe pagamentos</p>
+                <div class="card">
+                    <div class="card-icon">🔄</div>
+                    <h3>Definição de Fluxos</h3>
+                    <p>Mapeamento: qual empresa emite nota, qual recebe</p>
                 </div>
             </div>
-            <h3>Entregas</h3>
-            <div class="deliveries-grid">
-                <div class="delivery-item">✅ Parecer jurídico-fiscal</div>
-                <div class="delivery-item">✅ Definição de CNAE e regime tributário</div>
-                <div class="delivery-item">✅ Fluxograma de emissão e recebimento</div>
+
+            <div class="success-box">
+                <h3>✅ Entregas</h3>
+                <p>Parecer jurídico-fiscal • Definição de CNAE e regime tributário • Fluxograma de emissão e recebimento</p>
             </div>
         </div>
 
         <!-- SLIDE 4: FASE 2 -->
         <div class="slide" id="slide4">
-            <h2>🏦 FASE 2 - CONTAS BANCÁRIAS E BOLETOS</h2>
-            <div class="phase-number">02</div>
-            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&h=500&fit=crop" alt="Banking" class="hero-image">
-            <h3>Atividades Principais</h3>
-            <div class="activities-grid">
-                <div class="activity-item">
-                    <strong>Abertura de Contas PJ</strong>
+            <span class="phase-badge">FASE 02</span>
+            <h1>CONTAS BANCÁRIAS E BOLETOS</h1>
+
+            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1400&h=500&fit=crop" alt="Banking" class="hero-image">
+
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-icon">🏦</div>
+                    <h3>Abertura de Contas PJ</h3>
                     <p>Instituições com infraestrutura digital robusta</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Habilitação de Boletos</strong>
+                <div class="card">
+                    <div class="card-icon">🧾</div>
+                    <h3>Habilitação de Boletos</h3>
                     <p>Boletos registrados na CIP para controle automático</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Testes de Recebimento</strong>
+                <div class="card">
+                    <div class="card-icon">🔍</div>
+                    <h3>Testes de Recebimento</h3>
                     <p>Simulação de pagamentos e conciliação automática</p>
                 </div>
             </div>
-            <h3>Entregas</h3>
-            <div class="deliveries-grid">
-                <div class="delivery-item">✅ Contas PJ abertas e operacionais</div>
-                <div class="delivery-item">✅ Sistema de emissão de boletos configurado</div>
-                <div class="delivery-item">✅ Relatório de testes de recebimento</div>
+
+            <div class="success-box">
+                <h3>✅ Entregas</h3>
+                <p>Contas PJ abertas e operacionais • Sistema de emissão de boletos configurado • Relatório de testes de recebimento</p>
             </div>
         </div>
 
         <!-- SLIDE 5: FASE 3 -->
         <div class="slide" id="slide5">
-            <h2>⚙️ FASE 3 - AUTOMAÇÃO E CONTROLE FINANCEIRO</h2>
-            <div class="phase-number">03</div>
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=500&fit=crop" alt="Automation" class="hero-image">
-            <h3>Atividades Principais</h3>
-            <div class="activities-grid">
-                <div class="activity-item">
-                    <strong>Plataforma Automatizada</strong>
-                    <p>Google Sheets, Excel com Power Query ou sistema próprio</p>
+            <span class="phase-badge">FASE 03</span>
+            <h1>AUTOMAÇÃO E CONTROLE FINANCEIRO</h1>
+
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&h=500&fit=crop" alt="Automation" class="hero-image">
+
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-icon">⚙️</div>
+                    <h3>Plataforma Automatizada</h3>
+                    <p>Google Sheets, Excel Power Query ou sistema próprio</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Controle de Notas e Boletos</strong>
-                    <p>Centralização de dados e análise de inadimplência</p>
+                <div class="card">
+                    <div class="card-icon">📈</div>
+                    <h3>Controle Total</h3>
+                    <p>Notas fiscais, boletos, inadimplência em um dashboard</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Cálculo de Lucro</strong>
-                    <p>Regras: receita bruta, custos, impostos, lucro líquido</p>
+                <div class="card">
+                    <div class="card-icon">💎</div>
+                    <h3>Cálculo de Lucro</h3>
+                    <p>Receita bruta, custos, impostos, lucro líquido</p>
                 </div>
             </div>
-            <h3>Entregas</h3>
-            <div class="deliveries-grid">
-                <div class="delivery-item">✅ Dashboard financeiro operacional</div>
-                <div class="delivery-item">✅ Relatório de recebíveis e inadimplência</div>
-                <div class="delivery-item">✅ Modelo de cálculo de lucro e distribuição</div>
+
+            <div class="success-box">
+                <h3>✅ Entregas</h3>
+                <p>Dashboard financeiro operacional • Relatório de recebíveis e inadimplência • Modelo de cálculo de lucro e distribuição</p>
             </div>
         </div>
 
         <!-- SLIDE 6: FASE 4 -->
         <div class="slide" id="slide6">
-            <h2>📝 FASE 4 - ESTRUTURA CONTRATUAL E ATIVOS</h2>
-            <div class="phase-number">04</div>
-            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&h=500&fit=crop" alt="Contracts" class="hero-image">
-            <h3>Atividades Principais</h3>
-            <div class="activities-grid">
-                <div class="activity-item">
-                    <strong>Compra de Ativos</strong>
+            <span class="phase-badge">FASE 04</span>
+            <h1>ESTRUTURA CONTRATUAL E ATIVOS</h1>
+
+            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1400&h=500&fit=crop" alt="Contracts" class="hero-image">
+
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-icon">📝</div>
+                    <h3>Compra de Ativos</h3>
                     <p>Alinhamento com João: volume, preço, periodicidade</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Contrato de Compra</strong>
+                <div class="card">
+                    <div class="card-icon">🤝</div>
+                    <h3>Contrato de Compra</h3>
                     <p>Cláusulas de entrega, custódia, rescisão</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Contrato de Serviços</strong>
+                <div class="card">
+                    <div class="card-icon">⚖️</div>
+                    <h3>Contrato de Serviços</h3>
                     <p>Serviços, valores, políticas de risco, foro</p>
                 </div>
             </div>
-            <h3>Entregas</h3>
-            <div class="deliveries-grid">
-                <div class="delivery-item">✅ Contrato de compra de ativos assinado</div>
-                <div class="delivery-item">✅ Minuta de contrato de prestação de serviços</div>
-                <div class="delivery-item">✅ Política de riscos e disclaimers</div>
+
+            <div class="success-box">
+                <h3>✅ Entregas</h3>
+                <p>Contrato de compra de ativos assinado • Minuta de contrato de prestação de serviços • Política de riscos e disclaimers</p>
             </div>
         </div>
 
         <!-- SLIDE 7: FASE 5 -->
         <div class="slide" id="slide7">
-            <h2>🔐 FASE 5 - INFRAESTRUTURA CRIPTO</h2>
-            <div class="phase-number">05</div>
-            <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&h=500&fit=crop" alt="Crypto Security" class="hero-image">
-            <h3>Atividades Principais</h3>
-            <div class="activities-grid">
-                <div class="activity-item">
-                    <strong>Escolha de Carteiras</strong>
+            <span class="phase-badge">FASE 05</span>
+            <h1>INFRAESTRUTURA CRIPTO</h1>
+
+            <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1400&h=500&fit=crop" alt="Crypto Security" class="hero-image">
+
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-icon">🔐</div>
+                    <h3>Escolha de Carteiras</h3>
                     <p>Hardware (Ledger, Trezor), multisig, custódia institucional</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Carteiras Segregadas</strong>
-                    <p>Carteira operacional + carteiras por cliente/estratégia</p>
+                <div class="card">
+                    <div class="card-icon">🔀</div>
+                    <h3>Carteiras Segregadas</h3>
+                    <p>Operacional + carteiras por cliente/estratégia</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Política de Segurança</strong>
+                <div class="card">
+                    <div class="card-icon">🛡️</div>
+                    <h3>Política de Segurança</h3>
                     <p>Acesso a chaves privadas, multisig, backup de seeds</p>
                 </div>
             </div>
-            <h3>Entregas</h3>
-            <div class="deliveries-grid">
-                <div class="delivery-item">✅ Arquitetura de carteiras documentada</div>
-                <div class="delivery-item">✅ Política de segurança e POP</div>
-                <div class="delivery-item">✅ Procedimento operacional padrão</div>
-            </div>
+
             <div class="warning-box">
                 <h3>🔒 Segurança Crítica</h3>
-                <p>Controle de acesso a chaves privadas, protocolos de recuperação de desastres e monitoramento em tempo real são essenciais.</p>
+                <p>Controle de acesso, protocolos de recuperação de desastres e monitoramento em tempo real são essenciais para operações profissionais.</p>
+            </div>
+
+            <div class="success-box">
+                <h3>✅ Entregas</h3>
+                <p>Arquitetura de carteiras documentada • Política de segurança e POP • Procedimento operacional padrão</p>
             </div>
         </div>
 
         <!-- SLIDE 8: FASE 6 -->
         <div class="slide" id="slide8">
-            <h2>💸 FASE 6 - DISTRIBUIÇÃO DE LUCROS</h2>
-            <div class="phase-number">06</div>
-            <img src="https://images.unsplash.com/photo-1554224155-8727f6897d53?w=1200&h=500&fit=crop" alt="Profit Distribution" class="hero-image">
-            <h3>Modelo de Remuneração</h3>
-            <div class="activities-grid">
-                <div class="activity-item">
-                    <strong>Taxa Fixa</strong>
+            <span class="phase-badge">FASE 06</span>
+            <h1>DISTRIBUIÇÃO DE LUCROS</h1>
+
+            <img src="https://images.unsplash.com/photo-1554224155-8727f6897d53?w=1400&h=500&fit=crop" alt="Profit Distribution" class="hero-image">
+
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-icon">💵</div>
+                    <h3>Taxa Fixa</h3>
                     <p>Mensal, previsível para ambas as partes</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Percentual sobre Lucro</strong>
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h3>Percentual sobre Lucro</h3>
                     <p>Compartilhamento de resultados</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Híbrido</strong>
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h3>Híbrido</h3>
                     <p>Taxa mínima + bônus variável</p>
                 </div>
             </div>
-            <h3>Entregas</h3>
-            <div class="deliveries-grid">
-                <div class="delivery-item">✅ Modelo de distribuição documentado</div>
-                <div class="delivery-item">✅ Calendário de apuração e pagamento</div>
-                <div class="delivery-item">✅ Template de relatório de transparência</div>
+
+            <div class="success-box">
+                <h3>✅ Entregas</h3>
+                <p>Modelo de distribuição documentado • Calendário de apuração e pagamento • Template de relatório de transparência</p>
             </div>
         </div>
 
         <!-- SLIDE 9: FASE 7 -->
         <div class="slide" id="slide9">
-            <h2>💳 FASE 7 - CARTÕES CRIPTO</h2>
-            <div class="phase-number">07</div>
-            <img src="https://images.unsplash.com/photo-1563986768607-322da13575f3?w=1200&h=500&fit=crop" alt="Crypto Cards" class="hero-image">
-            <h3>Seleção de Cartões</h3>
-            <div class="activities-grid">
-                <div class="activity-item">
-                    <strong>Binance Card</strong>
+            <span class="phase-badge">FASE 07</span>
+            <h1>CARTÕES CRIPTO</h1>
+
+            <img src="https://images.unsplash.com/photo-1563986768607-322da13575f3?w=1400&h=500&fit=crop" alt="Crypto Cards" class="hero-image">
+
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-icon">💳</div>
+                    <h3>Binance Card</h3>
                     <p>Ampla aceitação, taxas competitivas</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Crypto.com Card</strong>
+                <div class="card">
+                    <div class="card-icon">🎁</div>
+                    <h3>Crypto.com Card</h3>
                     <p>Cashback em CRO, disponível no Brasil</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Wirex</strong>
+                <div class="card">
+                    <div class="card-icon">💎</div>
+                    <h3>Wirex</h3>
                     <p>Multi-moedas, integração fácil</p>
                 </div>
             </div>
-            <h3>Entregas</h3>
-            <div class="deliveries-grid">
-                <div class="delivery-item">✅ Testes de conversão e uso prático</div>
-                <div class="delivery-item">✅ Análise de taxas reais</div>
-                <div class="delivery-item">✅ Integração ao fluxo financeiro</div>
-            </div>
+
             <div class="success-box">
                 <h3>🎯 Benefício para Clientes</h3>
-                <p>Clientes podem optar por receber lucros via PIX, TED ou cartão cripto carregado automaticamente.</p>
+                <p>Clientes podem optar por receber lucros via PIX, TED ou cartão cripto carregado automaticamente com total flexibilidade.</p>
+            </div>
+
+            <div class="success-box">
+                <h3>✅ Entregas</h3>
+                <p>Testes de conversão e uso prático • Análise de taxas reais • Integração ao fluxo financeiro</p>
             </div>
         </div>
 
         <!-- SLIDE 10: RESUMO -->
         <div class="slide" id="slide10">
-            <h2>🚀 RESUMO DO PROJETO</h2>
-            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=500&fit=crop" alt="Timeline" class="hero-image">
+            <span class="phase-badge">🚀 Ready to Launch</span>
+            <h1>RESUMO DO PROJETO</h1>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin: 2rem 0;">
-                <div style="text-align: center;">
-                    <div class="highlight-number">7</div>
-                    <div class="highlight-text">Fases do Projeto</div>
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1400&h=500&fit=crop" alt="Timeline" class="hero-image">
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Fases do Projeto</div>
                 </div>
-                <div style="text-align: center;">
-                    <div class="highlight-number">100%</div>
-                    <div class="highlight-text">Transparência</div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Transparência</div>
                 </div>
-                <div style="text-align: center;">
-                    <div class="highlight-number">💎</div>
-                    <div class="highlight-text">Escalável</div>
+                <div class="stat-card">
+                    <div class="stat-number">🔒</div>
+                    <div class="stat-label">Seguro</div>
                 </div>
-                <div style="text-align: center;">
-                    <div class="highlight-number">🔒</div>
-                    <div class="highlight-text">Seguro</div>
+                <div class="stat-card">
+                    <div class="stat-number">💎</div>
+                    <div class="stat-label">Escalável</div>
                 </div>
             </div>
 
-            <h3>✅ Principais Benefícios</h3>
-            <div class="activities-grid">
-                <div class="activity-item">
-                    <strong>Compliance Fiscal</strong>
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-icon">✅</div>
+                    <h3>Compliance Fiscal</h3>
                     <p>Estrutura juridicamente adequada</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Automação</strong>
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h3>Automação</h3>
                     <p>Processos automatizados e rastreáveis</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Segurança</strong>
+                <div class="card">
+                    <div class="card-icon">🛡️</div>
+                    <h3>Segurança</h3>
                     <p>Protocolos de segurança avançados</p>
                 </div>
-                <div class="activity-item">
-                    <strong>Transparência</strong>
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h3>Transparência</h3>
                     <p>Relatórios detalhados para clientes</p>
                 </div>
             </div>
 
-            <div class="info-box" style="margin-top: 2rem;">
+            <div class="info-box">
                 <h3>📅 Próximos Passos</h3>
-                <p>Iniciar pela Fase 1 (Estrutura Jurídico-Fiscal) como base de toda a operação, seguido pela Fase 2 (Contas Bancárias) para estabelecer canais de recebimento.</p>
+                <p>Iniciar pela Fase 1 (Estrutura Jurídico-Fiscal) como base de toda a operação, seguido pela Fase 2 (Contas Bancárias) para estabelecer canais de recebimento. Cada fase constrói a fundação para a próxima.</p>
+            </div>
+
+            <div class="success-box" style="margin-top: 2rem; text-align: center;">
+                <h2>🚀 OPERAÇÃO PRONTA PARA DECOLAR</h2>
+                <p>Infraestrutura completa, segura e escalável para criptoativos</p>
             </div>
         </div>
 
@@ -556,7 +833,9 @@
 
         function showSlide(n) {
             const slides = document.querySelectorAll('.slide');
-            slides.forEach(slide => slide.classList.remove('active'));
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
 
             document.getElementById(`slide${n}`).classList.add('active');
 
